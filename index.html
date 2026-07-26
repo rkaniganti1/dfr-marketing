@@ -522,10 +522,11 @@ async function savePost(){
   }else{
     ({error} = await db.from('posts').insert(data));
   }
-  if(error){
-    console.error('save failed', error);
-    alert('Could not save — check the console for details.');
-    return;
+if(error){
+  console.error('save failed', error);
+  alert('Could not save: ' + JSON.stringify(error, null, 2));
+  return;
+}
   }
   closeModal();
 }
