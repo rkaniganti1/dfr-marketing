@@ -22,65 +22,47 @@
     --slate:#8A8D85;
     --slate-bg:#E7E7E1;
     --slate-ink:#54564F;
+    --red:#B4402A;
     --radius:10px;
-    /* status colors */
     --idea:#8A8D85; --idea-bg:#E7E7E1; --idea-ink:#4E5049;
     --progress:#EA5D2F; --progress-bg:#FBE3D8; --progress-ink:#A13C1B;
     --scheduled:#0F6E52; --scheduled-bg:#DCF5EC; --scheduled-ink:#0F6E52;
     --posted:#154734; --posted-bg:#DCE6E1; --posted-ink:#154734;
   }
   *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter',system-ui,sans-serif;
-  }
-  h1,h2,h3,.display{font-family:'Oswald',sans-serif; letter-spacing:0.02em;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:'Inter',system-ui,sans-serif;}
+  h1,h2,h3{font-family:'Oswald',sans-serif; letter-spacing:0.02em;}
 
-  /* header */
   header{
-    background:#0A0A0A;
-    color:var(--paper);
-    padding:18px 32px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    flex-wrap:wrap;
+    background:#0A0A0A; color:var(--paper); padding:18px 32px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
   }
   .brand{display:flex; align-items:center; gap:14px;}
   .brand img{height:40px; width:auto; display:block;}
   .brand h1{margin:0; font-size:20px; font-weight:600; text-transform:uppercase; color:#fff;}
-  .brand p{margin:2px 0 0; font-size:13px; color:#B9CFC5; font-family:'Inter',sans-serif;}
+  .brand p{margin:2px 0 0; font-size:13px; color:#B9CFC5;}
   .headerRight{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-  .viewToggle{
-    display:flex; background:#000; border-radius:8px; padding:3px; gap:2px; border:1px solid #2A2A2A;
-  }
-  .viewToggle button{
-    border:none; background:transparent; color:#B9CFC5; padding:8px 14px; border-radius:6px;
-    font-family:'Inter',sans-serif; font-size:13px; font-weight:500; cursor:pointer;
-  }
+  .viewToggle{display:flex; background:#000; border-radius:8px; padding:3px; gap:2px; border:1px solid #2A2A2A;}
+  .viewToggle button{border:none; background:transparent; color:#B9CFC5; padding:8px 14px; border-radius:6px; font-size:13px; font-weight:500; cursor:pointer;}
   .viewToggle button.active{background:var(--orange); color:#fff;}
-  .addBtn{
-    background:var(--orange); color:#fff; border:none; padding:10px 18px; border-radius:8px;
-    font-family:'Inter',sans-serif; font-weight:600; font-size:13px; cursor:pointer;
-  }
+  .addBtn{background:var(--orange); color:#fff; border:none; padding:10px 18px; border-radius:8px; font-weight:600; font-size:13px; cursor:pointer;}
   .addBtn:hover{background:var(--orange-dark);}
 
-  /* stats strip */
-  .stats{
-    display:flex; gap:1px; background:var(--line); border-bottom:1px solid var(--line);
-  }
-  .stat{
-    flex:1; background:var(--paper); padding:14px 20px; text-align:left;
-  }
+  .stats{display:flex; gap:1px; background:var(--line); border-bottom:1px solid var(--line);}
+  .stat{flex:1; background:var(--paper); padding:14px 20px;}
   .stat .num{font-family:'Oswald',sans-serif; font-size:26px; font-weight:600;}
   .stat .lbl{font-size:12px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.05em;}
 
   main{padding:24px 32px 60px; max-width:1180px; margin:0 auto;}
 
-  /* board */
+  .filterRow{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; align-items:center;}
+  .filterRow .flabel{font-size:12px; color:var(--ink-soft); font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-right:4px;}
+  .chip{
+    border:1px solid #DDDACF; background:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600;
+    cursor:pointer; color:var(--ink-soft);
+  }
+  .chip.active{background:var(--green-main); border-color:var(--green-main); color:#fff;}
+
   .board{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
   @media (max-width:900px){.board{grid-template-columns:1fr 1fr;}}
   @media (max-width:600px){.board{grid-template-columns:1fr;} .stats{flex-wrap:wrap;} .stat{min-width:50%;}}
@@ -90,10 +72,7 @@
   .colHead span.title{font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft);}
   .colHead span.count{font-size:12px; color:var(--ink-soft); background:#fff; padding:2px 8px; border-radius:20px;}
 
-  .card{
-    background:#fff; border:1px solid #E4E2D9; border-radius:9px; padding:12px 13px; margin-bottom:9px; cursor:pointer;
-    border-left:3px solid var(--slate);
-  }
+  .card{background:#fff; border:1px solid #E4E2D9; border-radius:9px; padding:12px 13px; margin-bottom:9px; cursor:pointer; border-left:3px solid var(--slate);}
   .card:hover{border-color:#D6D3C6; box-shadow:0 1px 3px rgba(0,0,0,0.06);}
   .card.idea{border-left-color:var(--idea);}
   .card.progress{border-left-color:var(--progress);}
@@ -101,19 +80,15 @@
   .card.posted{border-left-color:var(--posted);}
   .card .ttl{font-size:14px; font-weight:600; margin:0 0 6px; line-height:1.3;}
   .card .meta{display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink-soft);}
-  .plattag{
-    display:inline-block; font-size:11px; font-weight:600; padding:2px 7px; border-radius:5px;
-    background:var(--slate-bg); color:var(--slate-ink); text-transform:uppercase; letter-spacing:0.03em;
-  }
+  .plattag{display:inline-block; font-size:11px; font-weight:600; padding:2px 7px; border-radius:5px; background:var(--slate-bg); color:var(--slate-ink); text-transform:uppercase; letter-spacing:0.03em;}
+  .assignRow{display:flex; align-items:center; gap:6px; margin-top:8px;}
+  .avatar{width:20px; height:20px; border-radius:50%; background:var(--green-sec); color:var(--green-sec-dark); font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .assignRow span{font-size:11px; color:var(--ink-soft);}
   .assetLinks{display:flex; gap:6px; margin-top:8px;}
-  .assetLinks a{
-    display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; text-decoration:none;
-    padding:3px 8px; border-radius:5px; border:1px solid #E4E2D9; color:var(--ink-soft);
-  }
+  .assetLinks a{display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; text-decoration:none; padding:3px 8px; border-radius:5px; border:1px solid #E4E2D9; color:var(--ink-soft);}
   .assetLinks a:hover{border-color:var(--orange); color:var(--orange-dark);}
   .empty{font-size:12px; color:var(--ink-soft); padding:10px 4px; font-style:italic;}
 
-  /* calendar */
   .calWrap{background:var(--paper-2); border-radius:var(--radius); padding:16px;}
   .calNav{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; padding:0 4px;}
   .calNav button{background:#fff; border:1px solid #E4E2D9; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px;}
@@ -123,40 +98,38 @@
   .day{background:#fff; border:1px solid #E4E2D9; border-radius:7px; min-height:78px; padding:6px; font-size:11px;}
   .day.otherMonth{background:transparent; border-color:transparent;}
   .day .dnum{font-weight:600; color:var(--ink-soft); margin-bottom:4px;}
-  .day .post{
-    background:var(--slate-bg); color:var(--slate-ink); border-radius:4px; padding:2px 5px; margin-bottom:3px;
-    font-size:10.5px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer;
-  }
+  .day .post{background:var(--slate-bg); color:var(--slate-ink); border-radius:4px; padding:2px 5px; margin-bottom:3px; font-size:10.5px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer;}
   .day .post.progress{background:var(--progress-bg); color:var(--progress-ink);}
   .day .post.scheduled{background:var(--scheduled-bg); color:var(--scheduled-ink);}
   .day .post.posted{background:var(--posted-bg); color:var(--posted-ink);}
 
-  /* modal */
-  .overlay{
-    position:fixed; inset:0; background:rgba(20,20,18,0.5); display:none; align-items:center; justify-content:center; z-index:50; padding:20px;
-  }
+  .overlay{position:fixed; inset:0; background:rgba(20,20,18,0.5); display:none; align-items:center; justify-content:center; z-index:50; padding:20px;}
   .overlay.show{display:flex;}
-  .modal{
-    background:#fff; border-radius:12px; width:100%; max-width:440px; padding:22px; max-height:88vh; overflow-y:auto;
-  }
+  .modal{background:#fff; border-radius:12px; width:100%; max-width:440px; padding:22px; max-height:88vh; overflow-y:auto;}
   .modal h3{margin:0 0 16px; font-size:19px;}
   .field{margin-bottom:14px;}
   .field label{display:block; font-size:12px; font-weight:600; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:5px;}
-  .field input, .field select, .field textarea{
-    width:100%; padding:9px 10px; border:1px solid #DDDACF; border-radius:7px; font-family:'Inter',sans-serif; font-size:14px; background:#FAF9F5;
-  }
+  .field input, .field select, .field textarea{width:100%; padding:9px 10px; border:1px solid #DDDACF; border-radius:7px; font-family:'Inter',sans-serif; font-size:14px; background:#FAF9F5;}
   .field textarea{resize:vertical; min-height:60px;}
+  .assignField{display:flex; gap:8px;}
+  .assignField select{flex:1;}
+  .assignField button{border:1px solid #DDDACF; background:#FAF9F5; border-radius:7px; padding:0 12px; font-size:16px; cursor:pointer; color:var(--ink-soft);}
   .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
   .modalActions{display:flex; justify-content:space-between; align-items:center; margin-top:18px;}
-  .btn{border:none; padding:9px 16px; border-radius:7px; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; cursor:pointer;}
+  .btn{border:none; padding:9px 16px; border-radius:7px; font-weight:600; font-size:13px; cursor:pointer;}
   .btnPrimary{background:var(--green-main); color:#fff;}
   .btnDelete{background:none; color:var(--red); padding:9px 4px;}
   .btnCancel{background:none; color:var(--ink-soft);}
 
+  .banner{background:#FBE3D8; color:var(--orange-dark); font-size:13px; padding:10px 32px; text-align:center;}
   footer{text-align:center; padding:20px; font-size:12px; color:var(--ink-soft);}
 </style>
 </head>
 <body>
+
+<div class="banner" id="setupBanner" style="display:none;">
+  This board isn't connected to a database yet — see the comment near the top of the file for a 5-minute setup.
+</div>
 
 <header>
   <div class="brand">
@@ -178,6 +151,7 @@
 <div class="stats" id="stats"></div>
 
 <main>
+  <div class="filterRow" id="filterRow"></div>
   <div id="boardView" class="board"></div>
   <div id="calView" class="calWrap" style="display:none;">
     <div class="calNav">
@@ -189,7 +163,7 @@
   </div>
 </main>
 
-<footer>Shared with everyone who opens this — edits show up for the whole team.</footer>
+<footer>Shared with everyone who opens this link — edits show up for the whole team in real time.</footer>
 
 <div class="overlay" id="overlay">
   <div class="modal">
@@ -226,13 +200,16 @@
         <input type="date" id="fDate">
       </div>
       <div class="field">
-        <label>Owner</label>
-        <input id="fOwner" placeholder="Name">
+        <label>Assigned to</label>
+        <div class="assignField">
+          <select id="fOwner"></select>
+          <button type="button" onclick="addTeamMember()" title="Add a teammate">+</button>
+        </div>
       </div>
     </div>
     <div class="field">
-      <label>Notes / caption / link</label>
-      <textarea id="fNotes" placeholder="Caption draft, asset link, tags..."></textarea>
+      <label>Notes / caption</label>
+      <textarea id="fNotes" placeholder="Caption draft, tags..."></textarea>
     </div>
     <div class="row2">
       <div class="field">
@@ -254,8 +231,58 @@
   </div>
 </div>
 
+<!--
+  ================= ONE-TIME SETUP (about 5 minutes) =================
+  This board needs a free Supabase project to actually save data (GitHub
+  Pages only hosts the file — it can't store anything on its own).
+
+  1. Go to https://supabase.com, sign in (GitHub login works), click
+     "New project". Name it anything (e.g. "dfr-marketing"), set a
+     database password (you won't need to remember it), pick any region,
+     and create it. Takes about a minute to spin up.
+  2. Once it's ready, click the "SQL Editor" icon in the left sidebar,
+     click "New query", paste in the block below, and click "Run":
+
+     create table posts (
+       id uuid default gen_random_uuid() primary key,
+       title text,
+       platform text,
+       status text,
+       date date,
+       owner text,
+       notes text,
+       canva text,
+       box text
+     );
+     alter table posts enable row level security;
+     create policy "public access" on posts for all using (true) with check (true);
+
+     create table team_members (
+       name text primary key
+     );
+     alter table team_members enable row level security;
+     create policy "public access" on team_members for all using (true) with check (true);
+
+  3. Click "Project Settings" (gear icon) > "API". You'll see a
+     "Project URL" and an "anon public" key.
+  4. Copy those two values into SUPABASE_URL and SUPABASE_ANON_KEY
+     below, replacing the placeholder text.
+  5. Save this file, re-upload it to GitHub as index.html (same as
+     before), and it'll be live in a minute or two.
+
+  Everyone who opens the page reads and writes to this same database,
+  so the board updates for the whole team automatically.
+  ======================================================================
+-->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = "sb_publishable_exwBM-Z3qX1sl2bJ3dDM1g_a_xUXL86";
+const SUPABASE_ANON_KEY = "sb_secret_f4DNSSKVKm1z9d8fp_1T7w_1FqYV8Aa";
+
+let db = null;
 let posts = [];
+let team = [];
+let activeFilter = 'all';
 let currentView = 'board';
 let calMonth = new Date();
 calMonth.setDate(1);
@@ -268,21 +295,52 @@ const STATUS_META = {
 };
 
 async function loadPosts(){
-  try{
-    const res = await window.storage.get('dfr-posts', true);
-    posts = res && res.value ? JSON.parse(res.value) : [];
-  }catch(e){
-    posts = [];
-  }
+  const {data, error} = await db.from('posts').select('*');
+  if(error){ console.error('load posts failed', error); return; }
+  posts = data || [];
   render();
 }
+async function loadTeam(){
+  const {data, error} = await db.from('team_members').select('*').order('name');
+  if(error){ console.error('load team failed', error); return; }
+  team = (data || []).map(r=>r.name);
+  populateOwnerSelect();
+  renderFilters();
+}
 
-async function persist(){
-  try{
-    await window.storage.set('dfr-posts', JSON.stringify(posts), true);
-  }catch(e){
-    console.error('save failed', e);
+try{
+  if(SUPABASE_URL === "YOUR_SUPABASE_URL"){
+    document.getElementById('setupBanner').style.display = 'block';
+  }else{
+    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    loadPosts();
+    loadTeam();
+
+    db.channel('posts-sync')
+      .on('postgres_changes', {event:'*', schema:'public', table:'posts'}, loadPosts)
+      .subscribe();
+    db.channel('team-sync')
+      .on('postgres_changes', {event:'*', schema:'public', table:'team_members'}, loadTeam)
+      .subscribe();
   }
+}catch(e){
+  console.error('Supabase init failed', e);
+  document.getElementById('setupBanner').style.display = 'block';
+}
+
+function fmtDate(d){
+  if(!d) return 'No date';
+  const dt = new Date(d + 'T00:00:00');
+  return dt.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+}
+function escapeHtml(s){
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+function initials(name){
+  if(!name) return '?';
+  return name.trim().split(/\s+/).slice(0,2).map(w=>w[0].toUpperCase()).join('');
 }
 
 function setView(v){
@@ -294,6 +352,43 @@ function setView(v){
   render();
 }
 
+function visiblePosts(){
+  if(activeFilter==='all') return posts;
+  if(activeFilter==='unassigned') return posts.filter(p=>!p.owner);
+  return posts.filter(p=>p.owner===activeFilter);
+}
+
+function renderFilters(){
+  const el = document.getElementById('filterRow');
+  const chips = ['all', ...team, 'unassigned'];
+  el.innerHTML = '<span class="flabel">Filter</span>' + chips.map(c=>{
+    const label = c==='all' ? 'Everyone' : c==='unassigned' ? 'Unassigned' : c;
+    return `<button class="chip ${activeFilter===c?'active':''}" onclick="setFilter('${c.replace(/'/g,"\\'")}')">${escapeHtml(label)}</button>`;
+  }).join('');
+}
+function setFilter(f){
+  activeFilter = f;
+  renderFilters();
+  render();
+}
+
+function populateOwnerSelect(){
+  const sel = document.getElementById('fOwner');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">Unassigned</option>' + team.map(t=>`<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
+  if(team.includes(current)) sel.value = current;
+}
+async function addTeamMember(){
+  const name = prompt('Teammate name');
+  if(!name || !name.trim()) return;
+  const clean = name.trim();
+  if(team.includes(clean)) return;
+  if(db){
+    const {error} = await db.from('team_members').insert({name: clean});
+    if(error) console.error('could not save teammate', error);
+  }
+}
+
 function render(){
   renderStats();
   if(currentView==='board') renderBoard(); else renderCalendar();
@@ -302,7 +397,7 @@ function render(){
 function renderStats(){
   const el = document.getElementById('stats');
   const counts = {idea:0, progress:0, scheduled:0, posted:0};
-  posts.forEach(p=>{ if(counts[p.status]!==undefined) counts[p.status]++; });
+  visiblePosts().forEach(p=>{ if(counts[p.status]!==undefined) counts[p.status]++; });
   el.innerHTML = Object.keys(STATUS_META).map(k=>`
     <div class="stat">
       <div class="num">${counts[k]}</div>
@@ -310,15 +405,9 @@ function renderStats(){
     </div>`).join('');
 }
 
-function fmtDate(d){
-  if(!d) return 'No date';
-  const dt = new Date(d + 'T00:00:00');
-  return dt.toLocaleDateString('en-US', {month:'short', day:'numeric'});
-}
-
 function renderBoard(){
   const el = document.getElementById('boardView');
-  const sorted = [...posts].sort((a,b)=> (a.date||'9999').localeCompare(b.date||'9999'));
+  const sorted = [...visiblePosts()].sort((a,b)=> (a.date||'9999').localeCompare(b.date||'9999'));
   el.innerHTML = Object.keys(STATUS_META).map(status=>{
     const items = sorted.filter(p=>p.status===status);
     return `
@@ -331,9 +420,10 @@ function renderBoard(){
         <div class="card ${status}" onclick="openModal('${p.id}')">
           <p class="ttl">${escapeHtml(p.title||'Untitled')}</p>
           <div class="meta">
-            <span class="plattag">${p.platform}</span>
+            <span class="plattag">${escapeHtml(p.platform)}</span>
             <span>${fmtDate(p.date)}</span>
           </div>
+          ${p.owner ? `<div class="assignRow"><span class="avatar">${initials(p.owner)}</span><span>${escapeHtml(p.owner)}</span></div>` : ''}
           ${(p.canva || p.box) ? `<div class="assetLinks">
             ${p.canva ? `<a href="${escapeHtml(p.canva)}" target="_blank" onclick="event.stopPropagation()">Canva</a>` : ''}
             ${p.box ? `<a href="${escapeHtml(p.box)}" target="_blank" onclick="event.stopPropagation()">Box</a>` : ''}
@@ -351,17 +441,17 @@ function renderCalendar(){
   const firstDow = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month+1, 0).getDate();
   const daysInPrev = new Date(year, month, 0).getDate();
+  const vis = visiblePosts();
 
   let cells = '';
   ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=> cells += `<div class="dow">${d}</div>`);
-
   for(let i=0;i<firstDow;i++){
     const dnum = daysInPrev - firstDow + 1 + i;
     cells += `<div class="day otherMonth"><div class="dnum">${dnum}</div></div>`;
   }
   for(let d=1; d<=daysInMonth; d++){
     const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const dayPosts = posts.filter(p=>p.date===iso);
+    const dayPosts = vis.filter(p=>p.date===iso);
     cells += `<div class="day">
       <div class="dnum">${d}</div>
       ${dayPosts.map(p=>`<div class="post ${p.status}" onclick="openModal('${p.id}')">${escapeHtml(p.title||'Untitled')}</div>`).join('')}
@@ -374,20 +464,13 @@ function renderCalendar(){
   }
   grid.innerHTML = cells;
 }
-
 function shiftMonth(delta){
   calMonth.setMonth(calMonth.getMonth()+delta);
   renderCalendar();
 }
 
-function escapeHtml(s){
-  const d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
-}
-
 function openModal(id){
-  const overlay = document.getElementById('overlay');
+  populateOwnerSelect();
   document.getElementById('editId').value = id || '';
   if(id){
     const p = posts.find(x=>x.id===id);
@@ -413,51 +496,53 @@ function openModal(id){
     document.getElementById('fBox').value = '';
     document.getElementById('delBtn').style.display = 'none';
   }
-  overlay.classList.add('show');
+  document.getElementById('overlay').classList.add('show');
 }
-
 function closeModal(){
   document.getElementById('overlay').classList.remove('show');
 }
 
 async function savePost(){
+  if(!db){ alert('Not connected to a database yet — see the setup comment near the top of the HTML file.'); return; }
   const id = document.getElementById('editId').value;
   const data = {
     title: document.getElementById('fTitle').value.trim(),
     platform: document.getElementById('fPlatform').value,
     status: document.getElementById('fStatus').value,
-    date: document.getElementById('fDate').value,
-    owner: document.getElementById('fOwner').value.trim(),
+    date: document.getElementById('fDate').value || null,
+    owner: document.getElementById('fOwner').value,
     notes: document.getElementById('fNotes').value.trim(),
     canva: document.getElementById('fCanva').value.trim(),
     box: document.getElementById('fBox').value.trim()
   };
   if(!data.title){ document.getElementById('fTitle').focus(); return; }
-
+  let error;
   if(id){
-    const idx = posts.findIndex(p=>p.id===id);
-    if(idx>-1) posts[idx] = {...posts[idx], ...data};
+    ({error} = await db.from('posts').update(data).eq('id', id));
   }else{
-    posts.push({id: 'p'+Date.now(), ...data});
+    ({error} = await db.from('posts').insert(data));
   }
-  await persist();
+  if(error){
+    console.error('save failed', error);
+    alert('Could not save — check the console for details.');
+    return;
+  }
   closeModal();
-  render();
 }
-
 async function deletePost(){
+  if(!db) return;
   const id = document.getElementById('editId').value;
-  posts = posts.filter(p=>p.id!==id);
-  await persist();
+  const {error} = await db.from('posts').delete().eq('id', id);
+  if(error){ console.error('delete failed', error); return; }
   closeModal();
-  render();
 }
 
 document.getElementById('overlay').addEventListener('click', e=>{
   if(e.target.id==='overlay') closeModal();
 });
 
-loadPosts();
+renderFilters();
+render();
 </script>
 </body>
 </html>
