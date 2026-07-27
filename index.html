@@ -498,6 +498,24 @@
   let isAdmin = false;
   try{ isAdmin = sessionStorage.getItem('dfr-is-admin') === '1'; }catch(e){}
 
+  // ---- Discord notifications: posts to this webhook whenever a post is added
+  // or its status changes. Anyone who finds this URL in the page source could
+  // post to the channel, so treat it like a shared, low-stakes secret. ----
+  const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1531116696226762934/w780xplsJt880ItuRWtkX5j1V9mJdBDv7KVySLOe5SQ5MNDaeFruin6fanus5BdpjiIX";
+
+  async function notifyDiscord(message){
+    if(!DISCORD_WEBHOOK_URL) return;
+    try{
+      await fetch(DISCORD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({content: message})
+      });
+    }catch(e){
+      console.error('Discord notify failed', e);
+    }
+  }
+
   let posts = [];
   let selectedStatuses = new Set();
   let currentEditId = null;
@@ -801,11 +819,15 @@
       boxLink: document.getElementById('f-box').value.trim(),
     };
     let toSave;
+    let isNewPost = false;
+    let oldStatus = null;
     if(currentEditId){
       const idx = posts.findIndex(p=>p.id===currentEditId);
+      oldStatus = idx>-1 ? posts[idx].status : null;
       toSave = idx>-1 ? {...posts[idx], ...data} : {id: uid(), ...data};
       if(idx>-1) posts[idx] = toSave;
     }else{
+      isNewPost = true;
       toSave = {id: uid(), ...data};
       posts.push(toSave);
     }
@@ -813,6 +835,12 @@
     renderAll();
     closeModal();
     await upsertPost(toSave);
+
+    if(isNewPost){
+      notifyDiscord(`🆕 **New post added:** ${toSave.title} (${toSave.platform}) — status: ${STATUS_LABEL[toSave.status]}`);
+    }else if(oldStatus !== toSave.status){
+      notifyDiscord(`🔄 **Status changed:** ${toSave.title} — ${STATUS_LABEL[oldStatus]} → ${STATUS_LABEL[toSave.status]}`);
+    }
   }
 
   async function deletePost(){
