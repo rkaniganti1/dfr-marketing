@@ -161,12 +161,13 @@
   /* board */
   .board{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:16px;
+    grid-template-columns:repeat(5,1fr);
+    gap:14px;
     padding:18px 28px;
   }
-  @media(max-width:900px){.board{grid-template-columns:1fr 1fr;}}
-  @media(max-width:560px){.board{grid-template-columns:1fr;}}
+  @media(max-width:1150px){.board{grid-template-columns:repeat(3,1fr);}}
+  @media(max-width:700px){.board{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.board{grid-template-columns:1fr;}}
 
   .column{background:var(--white);border:1px solid #e5e2dc;border-radius:12px;padding:0;min-height:120px;overflow:hidden;}
   .column-head{
@@ -197,6 +198,7 @@
   .column-body{background:#f6f5f2;padding:14px;min-height:70px;}
   .dot-idea{background:var(--gray-idea-text);}
   .dot-progress{background:var(--orange);}
+  .dot-revision{background:#c1481f;}
   .dot-scheduled{background:var(--green-secondary);}
   .dot-posted{background:var(--green-main);}
 
@@ -211,11 +213,9 @@
     transition:transform .1s, box-shadow .1s;
   }
   .card:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,0.1);}
-  body:not(.is-admin) .card{cursor:default;}
-  body:not(.is-admin) .card:hover{transform:none;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
-  body:not(.is-admin) .cal-chip{cursor:default;}
   .column[data-status="idea"] .card{border-left-color:var(--gray-idea-text);}
   .column[data-status="progress"] .card{border-left-color:var(--orange);}
+  .column[data-status="revision"] .card{border-left-color:#c1481f;}
   .column[data-status="scheduled"] .card{border-left-color:var(--green-secondary);}
   .column[data-status="posted"] .card{border-left-color:var(--green-main);}
 
@@ -235,6 +235,10 @@
   .plat-linkedin{background:#0a66c2;}
   .plat-youtube{background:#c4302b;}
   .plat-newsletter{background:var(--green-main);}
+  .plat-graphics{background:var(--orange);}
+  .plat-merch{background:var(--green-secondary);color:var(--green-main);}
+  .plat-upload{background:#8a857e;}
+  .plat-other{background:#555;}
 
   .card-title{font-size:14px;font-weight:600;margin:0 0 8px 0;line-height:1.3;}
   .card-meta{
@@ -319,6 +323,9 @@
     font-family:var(--font-body);font-size:13px;background:#fafafa;
   }
   .field textarea{resize:vertical;min-height:60px;}
+  .field input[readonly], .field textarea[readonly], .field select:disabled{
+    background:#f0efec;color:#666;cursor:default;
+  }
   .modal-actions{display:flex;justify-content:space-between;gap:10px;margin-top:18px;}
   .btn-secondary{
     background:transparent;border:1px solid #ddd;color:#666;
@@ -362,7 +369,7 @@
   </div>
   <div class="stat-bar" id="stat-bar"></div>
 
-  <p class="share-note">Shared with everyone who opens this — anyone with the link can see and edit the plan.</p>
+  <p class="share-note">Shared with everyone who opens this — anyone with the link can view the plan; only admins can edit.</p>
   <div id="setup-banner" style="display:none;background:#fff4ec;border:1px solid var(--orange);color:#8a3d1f;font-family:var(--font-mono);font-size:12px;padding:12px 28px;margin:0 28px 10px 28px;border-radius:8px;">
     ⚠ Setup needed: paste your Supabase Project URL and anon key into the two config lines near the top of the &lt;script&gt; section in index.html, then commit.
   </div>
@@ -383,6 +390,10 @@
           <option value="LinkedIn">LinkedIn</option>
           <option value="YouTube">YouTube</option>
           <option value="Newsletter">Newsletter</option>
+          <option value="Graphics">Graphics</option>
+          <option value="Merch">Merch</option>
+          <option value="Upload media">Upload media</option>
+          <option value="Other">Other</option>
         </select>
       </div>
     </div>
@@ -420,6 +431,10 @@
         <option>LinkedIn</option>
         <option>YouTube</option>
         <option>Newsletter</option>
+        <option>Graphics</option>
+        <option>Merch</option>
+        <option>Upload media</option>
+        <option>Other</option>
       </select>
     </div>
     <div class="field">
@@ -427,6 +442,7 @@
       <select id="f-status">
         <option value="idea">Idea</option>
         <option value="progress">In progress</option>
+        <option value="revision">Need revision</option>
         <option value="scheduled">Scheduled</option>
         <option value="posted">Posted</option>
       </select>
@@ -484,11 +500,12 @@
   let selectedStatuses = new Set();
   let currentEditId = null;
   let calDate = new Date();
-  const STATUS_ORDER = ['idea','progress','scheduled','posted'];
-  const STATUS_LABEL = {idea:'Idea', progress:'In progress', scheduled:'Scheduled', posted:'Posted'};
+  const STATUS_ORDER = ['idea','progress','revision','scheduled','posted'];
+  const STATUS_LABEL = {idea:'Idea', progress:'In progress', revision:'Need revision', scheduled:'Scheduled', posted:'Posted'};
   const PLATFORM_CLASS = {
     Instagram:'plat-instagram', TikTok:'plat-tiktok', LinkedIn:'plat-linkedin',
-    YouTube:'plat-youtube', Newsletter:'plat-newsletter'
+    YouTube:'plat-youtube', Newsletter:'plat-newsletter', Graphics:'plat-graphics',
+    Merch:'plat-merch', 'Upload media':'plat-upload', Other:'plat-other'
   };
 
   function uid(){ return 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2,8); }
@@ -736,11 +753,14 @@
     });
   }
 
+  const MODAL_FIELD_IDS = ['f-title','f-platform','f-status','f-date','f-owner','f-notes','f-canva','f-box'];
+
   function openModal(id){
-    if(!isAdmin) return; // view-only for non-admins
-    currentEditId = id || null;
     const post = id ? posts.find(p=>p.id===id) : null;
-    document.getElementById('modal-title').textContent = post ? 'Edit post' : 'Add post';
+    if(!isAdmin && !post) return; // non-admins can't open the add-post form
+    currentEditId = id || null;
+    const readonly = !isAdmin;
+    document.getElementById('modal-title').textContent = readonly ? 'View post' : (post ? 'Edit post' : 'Add post');
     document.getElementById('f-title').value = post ? (post.title||'') : '';
     document.getElementById('f-platform').value = post ? (post.platform||'Instagram') : 'Instagram';
     document.getElementById('f-status').value = post ? (post.status||'idea') : 'idea';
@@ -749,7 +769,14 @@
     document.getElementById('f-notes').value = post ? (post.notes||'') : '';
     document.getElementById('f-canva').value = post ? (post.canvaLink||'') : '';
     document.getElementById('f-box').value = post ? (post.boxLink||'') : '';
-    document.getElementById('delete-btn').style.display = post ? 'inline-block' : 'none';
+    MODAL_FIELD_IDS.forEach(fid=>{
+      const el = document.getElementById(fid);
+      if(el.tagName === 'SELECT') el.disabled = readonly;
+      else el.readOnly = readonly;
+    });
+    document.getElementById('delete-btn').style.display = (post && !readonly) ? 'inline-block' : 'none';
+    document.getElementById('save-btn').style.display = readonly ? 'none' : 'inline-block';
+    document.getElementById('cancel-btn').textContent = readonly ? 'Close' : 'Cancel';
     document.getElementById('modal-overlay').classList.add('open');
   }
 
